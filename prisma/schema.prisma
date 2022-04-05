@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Airport {
+
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  code  String @unique
+  place String
+
+}
+
+model Flight {
+
+  id           Int      @id @default(autoincrement())
+  company      String
+  flightNumber String
+  start        DateTime
+  end          DateTime
+  source       Int
+  destination  Int
+
+
+  @@unique([flightNumber, start, end, source, destination])
+}
+
+model User {
+
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String   @unique
+  password    String
+  dob         DateTime
+  phoneNumber String   @unique
+  createdAt   DateTime @default(now())
+
+}
+
+model Provider {
+
+  id          Int      @id @default(autoincrement())
+  name        String
+  airport     Int
+  gstin       String
+  description String
+  img         String
+  tags        String[]
+  createdAt   DateTime @default(now())
+
+
+  @@unique([name, airport, gstin])
+}
+
+model Item {
+  id          Int      @id @default(autoincrement())
+  provider    Int
+  description String
+  price       Int
+  name        String
+  img         String
+  tags        String[]
+  createdAt   DateTime @default(now())
+
+
+  @@unique([name, provider])
+}
+
+model Order {
+
+  id        Int         @id @default(autoincrement())
+  airport   Int
+  provider  Int
+  user      Int
+  flight    Int
+  remarks   String
+  items     Int[]
+  price     Int
+  status    OrderStatus
+  createdAt DateTime    @default(now())
+
+
+  @@unique([airport, provider, user, flight])
+}
+
+enum OrderStatus {
+
+  RECIEVED
+  CONFIRMED
+  REJECTED
+  READY
+  DELIVERED
+
+}
+
+model Review {
+
+  id        Int      @id @default(autoincrement())
+  user      Int
+  score     Int
+  provider  Int
+  comment   String
+  order     Int
+  createdAt DateTime @default(now())
+
+
+  @@unique([user, provider])
+}
