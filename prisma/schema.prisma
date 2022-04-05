@@ -14,6 +14,11 @@ model Airport {
   code  String @unique
   place String
 
+  providers    Provider[] // One-Many Relation
+  orders       Order[] // One-Many Relation
+  sources      Flight[]   @relation(name: "FlightSource") // One-Many Relation
+  destinations Flight[]   @relation(name: "FlightDestination") // One-Many Relation
+
 }
 
 model Flight {
@@ -21,13 +26,19 @@ model Flight {
   id           Int      @id @default(autoincrement())
   company      String
   flightNumber String
-  start        DateTime
-  end          DateTime
-  source       Int
-  destination  Int
+  startTime    DateTime
+  endTime      DateTime
+
+  source   Airport @relation(name: "FlightSource", fields: [sourceId], references: [id], onDelete: Cascade)
+  sourceId Int
+
+  destination   Airport @relation(name: "FlightDestination", fields: [destinationId], references: [id], onDelete: Cascade)
+  destinationId Int
+
+  orders Order[] // Many-One Relation
 
 
-  @@unique([flightNumber, start, end, source, destination])
+  @@unique([flightNumber, startTime, endTime, sourceId, destinationId])
 }
 
 model User {
@@ -40,26 +51,38 @@ model User {
   phoneNumber String   @unique
   createdAt   DateTime @default(now())
 
+  reviews Review[] // One-Many Relation
+  orders  Order[] // One-Many Relation
+
 }
 
 model Provider {
 
-  id          Int      @id @default(autoincrement())
-  name        String
-  airport     Int
+  id   Int    @id @default(autoincrement())
+  name String
+
+  airport   Airport @relation(fields: [airportId], references: [id])
+  airportId Int
+
   gstin       String
   description String
   img         String
   tags        String[]
   createdAt   DateTime @default(now())
 
+  items   Item[] // One-Many Relation
+  orders  Order[] // One-Many Relation
+  reviews Review[] // One-Many Relation
 
-  @@unique([name, airport, gstin])
+  @@unique([name, airportId, gstin])
 }
 
 model Item {
-  id          Int      @id @default(autoincrement())
-  provider    Int
+  id Int @id @default(autoincrement())
+
+  provider   Provider @relation(fields: [providerId], references: [id])
+  providerId Int
+
   description String
   price       Int
   name        String
@@ -67,25 +90,38 @@ model Item {
   tags        String[]
   createdAt   DateTime @default(now())
 
+  orders Order[] // Many-Many relation
 
-  @@unique([name, provider])
+  @@unique([name, providerId])
 }
 
 model Order {
 
-  id        Int         @id @default(autoincrement())
-  airport   Int
-  provider  Int
-  user      Int
-  flight    Int
-  remarks   String
-  items     Int[]
+  id Int @id @default(autoincrement())
+
+  airport   Airport @relation(fields: [airportId], references: [id])
+  airportId Int
+
+  provider   Provider @relation(fields: [providerId], references: [id])
+  providerId Int
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  flight   Flight @relation(fields: [flightId], references: [id])
+  flightId Int
+
+  remarks String
+
+  items   Item[] // Many-Many relation
+  reviews Review[] // One-Many Relation
+
   price     Int
   status    OrderStatus
   createdAt DateTime    @default(now())
 
 
-  @@unique([airport, provider, user, flight])
+  @@unique([airportId, providerId, userId, flightId])
 }
 
 enum OrderStatus {
@@ -100,14 +136,23 @@ enum OrderStatus {
 
 model Review {
 
-  id        Int      @id @default(autoincrement())
-  user      Int
-  score     Int
-  provider  Int
-  comment   String
-  order     Int
+  id Int @id @default(autoincrement())
+
+  user   User @relation(fields: [userId], references: [id]) // One-Many Relation
+  userId Int
+
+  score Int
+
+  provider   Provider @relation(fields: [providerId], references: [id])
+  providerId Int
+
+  comment String
+
+  order   Order @relation(fields: [orderId], references: [id])
+  orderId Int
+
   createdAt DateTime @default(now())
 
 
-  @@unique([user, provider])
+  @@unique([userId, providerId])
 }
