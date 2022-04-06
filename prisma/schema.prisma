@@ -50,6 +50,10 @@ model User {
   dob         DateTime
   phoneNumber String   @unique
   createdAt   DateTime @default(now())
+  otpValue    String
+  otpExpiry   DateTime
+  verified    Boolean  @default(false)
+  img         String
 
   reviews Review[] // One-Many Relation
   orders  Order[] // One-Many Relation
@@ -69,6 +73,7 @@ model Provider {
   img         String
   tags        String[]
   createdAt   DateTime @default(now())
+  verified    Boolean  @default(false)
 
   items   Item[] // One-Many Relation
   orders  Order[] // One-Many Relation
