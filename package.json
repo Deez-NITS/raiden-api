@@ -8,16 +8,31 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
+    "prepare": "husky install",
     "prisma:generate": "prisma generate",
     "prisma:format": "prisma format",
     "prisma:migrate:dev": "prisma migrate dev",
-    "prisma:deploy": "prisma migrate deploy"
+    "prisma:deploy": "prisma migrate deploy",
+    "lint": "eslint . --fix",
+    "pre-commit": "lint-staged"
   },
   "devDependencies": {
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.7",
     "nodemon": "^2.0.15",
     "prisma": "^3.12.0"
   },
   "dependencies": {
     "@prisma/client": "^3.12.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "yarn lint",
+      "yarn prisma:format",
+      "yarn prettier --write ."
+    ],
+    "*.{css,scss}": [
+      "yarn prettier --write ."
+    ]
   }
 }
