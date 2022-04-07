@@ -27,4 +27,16 @@ function newHashString() {
   return hash;
 }
 
-export { getRandomChar, newHashString };
+/**
+ *
+ * @description Removes every whitespace in
+ * a string
+ *
+ * @param {string} text
+ * @returns {string}
+ */
+function removeWhitespace(text) {
+  return text.split(" ").join("");
+}
+
+export { getRandomChar, newHashString, removeWhitespace };

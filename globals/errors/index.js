@@ -8,6 +8,7 @@ const invalidId = error("Invalid ID.");
 const userNotFound = error("User not found.");
 const userAlreadyExists = error("User already exists.");
 const userUnauthenticated = error("User unauthenticated.");
+const incorrectCredentials = error("Incorrect credentials.");
 
 //----------------- OTP -------------------------------
 
@@ -32,6 +33,7 @@ export {
   userNotFound,
   userAlreadyExists,
   userUnauthenticated,
+  incorrectCredentials,
   otpExpired,
   incorrectOtp,
   userAlreadyVerified,
