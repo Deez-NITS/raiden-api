@@ -10,7 +10,7 @@ datasource db {
 model Airport {
 
   id    Int    @id @default(autoincrement())
-  name  String @unique
+  name  String
   code  String @unique
   place String
 

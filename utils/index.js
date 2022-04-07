@@ -5,6 +5,7 @@ import { getRandomNum } from "./random.js";
 import { getRandomChar, newHashString } from "./string.js";
 import { hash } from "./hash.js";
 import { prisma } from "./prisma.js";
+import { validId } from "./id.js";
 
 export {
   sendMail,
@@ -16,4 +17,5 @@ export {
   newHashString,
   hash,
   prisma,
+  validId,
 };

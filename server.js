@@ -1,7 +1,7 @@
 //------------------------- ENV VARS -------------------------
 
 import dotenv from "dotenv";
-dotenv.config({ path: "./config/.env" });
+dotenv.config();
 
 //------------------------- IMPORTS -------------------------
 
@@ -16,7 +16,7 @@ import passport from "passport";
 import { COOKIE_MAX_AGE, ROOT } from "./globals/constants.js";
 import { initializePassport } from "./utils/index.js";
 
-import { authRouter } from "./routes/index.js";
+import { airportRouter, authRouter } from "./routes/index.js";
 
 //------------------------- MIDDLEWARES -------------------------
 
@@ -48,6 +48,7 @@ app
 //------------------------- ROUTES -------------------------
 
 app.use(`${ROOT}/auth`, authRouter);
+app.use(`${ROOT}/airport`, airportRouter);
 
 //------------------------- APP -------------------------
 

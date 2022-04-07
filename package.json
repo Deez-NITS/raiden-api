@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "prepare": "husky install",
+    "prepare": "husky install && yarn prisma:migrate:dev",
     "prisma:generate": "prisma generate",
     "prisma:format": "prisma format",
     "prisma:migrate:dev": "prisma migrate dev",
