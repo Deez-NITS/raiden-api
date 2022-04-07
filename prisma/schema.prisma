@@ -29,16 +29,16 @@ model Flight {
   startTime    DateTime
   endTime      DateTime
 
-  source   Airport @relation(name: "FlightSource", fields: [sourceId], references: [id], onDelete: Cascade)
-  sourceId Int
+  source   Airport @relation(name: "FlightSource", fields: [sourceCode], references: [code], onDelete: Cascade)
+  sourceCode String
 
-  destination   Airport @relation(name: "FlightDestination", fields: [destinationId], references: [id], onDelete: Cascade)
-  destinationId Int
+  destination   Airport @relation(name: "FlightDestination", fields: [destinationCode], references: [code], onDelete: Cascade)
+  destinationCode String
 
   orders Order[] // Many-One Relation
 
 
-  @@unique([flightNumber, startTime, endTime, sourceId, destinationId])
+  @@unique([flightNumber, startTime, endTime, sourceCode, destinationCode])
 }
 
 model User {

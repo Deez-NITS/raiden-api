@@ -9,6 +9,8 @@ const otpIssued = success("New OTP issued successfully.");
 const airportCreated = success("Airport created successfully.");
 const airportUpdated = success("Airport updated successfully.");
 
+const flightCreated = success("Flight created successfully.");
+
 export {
   success,
   userCreated,
@@ -17,4 +19,5 @@ export {
   otpIssued,
   airportCreated,
   airportUpdated,
+  flightCreated,
 };

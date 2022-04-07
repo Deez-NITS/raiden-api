@@ -20,7 +20,13 @@ const userAlreadyVerified = error("User already verified.");
 const airportNotFound = error("Airport not found.");
 const airportCodeTaken = error("Airport code taken");
 
+//----------------- FLIGHT -------------------------------
+
+const flightExists = error("Flight already exists.");
+const flightNotFound = error("Flight not found.");
+
 export {
+  error,
   serverError,
   invalidId,
   userNotFound,
@@ -31,4 +37,6 @@ export {
   userAlreadyVerified,
   airportNotFound,
   airportCodeTaken,
+  flightExists,
+  flightNotFound,
 };
