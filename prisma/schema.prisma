@@ -1,0 +1,150 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Airport {
+
+  id    Int    @id @default(autoincrement())
+  name  String
+  code  String @unique
+  place String
+
+  providers    Provider[] // One-Many Relation
+  sources      Flight[]   @relation(name: "FlightSource") // One-Many Relation
+  destinations Flight[]   @relation(name: "FlightDestination") // One-Many Relation
+
+}
+
+model Flight {
+
+  id           Int      @id @default(autoincrement())
+  company      String
+  flightNumber String
+  startTime    DateTime
+  endTime      DateTime
+
+  source     Airport @relation(name: "FlightSource", fields: [sourceCode], references: [code], onDelete: Cascade)
+  sourceCode String
+
+  destination     Airport @relation(name: "FlightDestination", fields: [destinationCode], references: [code], onDelete: Cascade)
+  destinationCode String
+
+  orders Order[] // Many-One Relation
+
+
+  @@unique([flightNumber, startTime, endTime, sourceCode, destinationCode])
+}
+
+model User {
+
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String   @unique
+  password    String
+  dob         DateTime
+  phoneNumber String   @unique
+  createdAt   DateTime @default(now())
+  otpValue    String
+  otpExpiry   DateTime
+  verified    Boolean  @default(false)
+  img         String
+
+  orders Order[] // One-Many Relation
+
+}
+
+model Provider {
+
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String   @unique
+  password    String
+  phoneNumber String
+  otpValue    String
+  otpExpiry   DateTime
+  verified    Boolean  @default(false)
+
+  airport     Airport @relation(fields: [airportCode], references: [code])
+  airportCode String
+
+  gstin       String
+  description String
+  img         String
+  tags        String[]
+  createdAt   DateTime @default(now())
+
+  items  Item[] // One-Many Relation
+  orders Order[] // One-Many Relation
+
+  @@unique([name, airportCode, gstin])
+}
+
+model Item {
+  id Int @id @default(autoincrement())
+
+  provider   Provider @relation(fields: [providerId], references: [id])
+  providerId Int
+
+  description String
+  price       Int
+  name        String
+  img         String
+  tags        String[]
+  createdAt   DateTime @default(now())
+
+  @@unique([name, providerId])
+}
+
+model Order {
+
+  id Int @id @default(autoincrement())
+
+  provider   Provider @relation(fields: [providerId], references: [id])
+  providerId Int
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  flight   Flight @relation(fields: [flightId], references: [id])
+  flightId Int
+
+  remarks String
+
+  price     Int
+  status    OrderStatus @default(RECIEVED)
+  createdAt DateTime    @default(now())
+
+  items Int[] // Id of Items
+
+  @@unique([providerId, userId, flightId])
+}
+
+enum OrderStatus {
+
+  RECIEVED
+  CONFIRMED
+  REJECTED
+  READY
+  DELIVERED
+
+}
+
+model Review {
+
+  id Int @id @default(autoincrement())
+
+  userId     Int
+  score      Int
+  providerId Int
+  comment    String
+  orderId    Int
+  createdAt  DateTime @default(now())
+
+
+  @@unique([userId, providerId])
+}
