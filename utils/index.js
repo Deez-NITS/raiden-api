@@ -6,6 +6,7 @@ import { getRandomChar, newHashString, removeWhitespace } from "./string.js";
 import { hash } from "./hash.js";
 import { prisma } from "./prisma.js";
 import { validId } from "./id.js";
+import { defaultProfilePic } from "./img.js";
 
 export {
   sendMail,
@@ -19,4 +20,5 @@ export {
   hash,
   prisma,
   validId,
+  defaultProfilePic,
 };

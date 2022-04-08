@@ -21,6 +21,16 @@ const airportUpdated = success("Airport updated successfully.");
 
 const flightCreated = success("Flight created successfully.");
 
+//---------------------- ORDER -----------------------------
+
+const orderCreated = success("Order created successfully.");
+const orderStatusUpdated = success("Order status updated.");
+
+//---------------------- ITEM -----------------------------
+
+const itemCreated = success("Item created successfully.");
+const itemUpdated = success("Item updated successfully.");
+
 export {
   success,
   userCreated,
@@ -32,4 +42,8 @@ export {
   airportCreated,
   airportUpdated,
   flightCreated,
+  orderCreated,
+  orderStatusUpdated,
+  itemCreated,
+  itemUpdated,
 };

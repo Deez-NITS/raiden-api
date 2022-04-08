@@ -15,7 +15,6 @@ model Airport {
   place String
 
   providers    Provider[] // One-Many Relation
-  orders       Order[] // One-Many Relation
   sources      Flight[]   @relation(name: "FlightSource") // One-Many Relation
   destinations Flight[]   @relation(name: "FlightDestination") // One-Many Relation
 
@@ -95,17 +94,12 @@ model Item {
   tags        String[]
   createdAt   DateTime @default(now())
 
-  orders Order[] // Many-Many relation
-
   @@unique([name, providerId])
 }
 
 model Order {
 
   id Int @id @default(autoincrement())
-
-  airport     Airport @relation(fields: [airportCode], references: [code])
-  airportCode String
 
   provider   Provider @relation(fields: [providerId], references: [id])
   providerId Int
@@ -118,15 +112,15 @@ model Order {
 
   remarks String
 
-  items   Item[] // Many-Many relation
-  reviews Review[] // One-Many Relation
-
   price     Int
-  status    OrderStatus
+  status    OrderStatus @default(RECIEVED)
   createdAt DateTime    @default(now())
 
+  items   Int[] // Id of Items
+  reviews Review[] // One-Many Relation
 
-  @@unique([airportCode, providerId, userId, flightId])
+
+  @@unique([providerId, userId, flightId])
 }
 
 enum OrderStatus {

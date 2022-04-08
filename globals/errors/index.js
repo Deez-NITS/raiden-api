@@ -26,6 +26,20 @@ const airportCodeTaken = error("Airport code taken");
 const flightExists = error("Flight already exists.");
 const flightNotFound = error("Flight not found.");
 
+//----------------- ORDER -------------------------------
+
+const orderExists = error("Order already exists.");
+const orderNotFound = error("Order not found.");
+
+//----------------- ITEM -------------------------------
+
+const itemExists = error("Item already exists");
+const itemNotFound = error("Item not found.");
+
+//----------------- PROVIDER -------------------------------
+
+const providerNotFound = error("Provider not found");
+
 export {
   error,
   serverError,
@@ -41,4 +55,9 @@ export {
   airportCodeTaken,
   flightExists,
   flightNotFound,
+  orderExists,
+  orderNotFound,
+  itemExists,
+  itemNotFound,
+  providerNotFound,
 };

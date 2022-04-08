@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 
-import { prisma, removeWhitespace } from "../../utils/index.js";
+import { prisma, defaultProfilePic } from "../../utils/index.js";
 import { serverError, userAlreadyExists } from "../../globals/errors/index.js";
 import { userCreated } from "../../globals/success/index.js";
 import { generateOtp } from "../../utils/index.js";
@@ -20,9 +20,7 @@ async function userSignUp(req, res) {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Default Profile Picture
-    const pfpUrl = `https://avatars.dicebear.com/api/identicon/${removeWhitespace(
-      name
-    )}.svg`;
+    const pfpUrl = defaultProfilePic(name);
 
     // Finding if user already exists
     const findUser = await prisma.user.findFirst({

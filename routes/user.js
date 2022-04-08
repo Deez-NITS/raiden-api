@@ -11,9 +11,9 @@ import {
 const router = express.Router({ mergeParams: true });
 
 router.get("/", authenticated, getUser);
-router.get("/:id", getUserById);
 router.patch("/password", authenticated, changePassword);
 // router.patch("/img", authenticated, updateProfileImage);
 router.patch("/details", authenticated, updateProfileDetails);
+router.get("/:id", getUserById);
 
 export default router;

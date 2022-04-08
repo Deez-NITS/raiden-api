@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
  * using bcrypt
  *
  * @param {string} text
- * @returns {string} The hashed text
+ * @returns {Promise<string>} The hashed text
  */
 async function hash(text) {
   try {
