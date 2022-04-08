@@ -24,7 +24,7 @@ async function updateItem(req, res) {
 
     id = parseInt(id);
 
-    const { description, price, img } = req.body;
+    const { description, price, img, tags } = req.body;
 
     const item = await prisma.item.findFirst({
       where: {
@@ -48,6 +48,7 @@ async function updateItem(req, res) {
         description,
         price,
         img,
+        tags,
       },
     });
 

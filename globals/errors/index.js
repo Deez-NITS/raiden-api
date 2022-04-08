@@ -41,6 +41,11 @@ const itemNotFound = error("Item not found.");
 
 const providerNotFound = error("Provider not found");
 
+//----------------- PROVIDER -------------------------------
+
+const reviewExists = error("Review already exists");
+const reviewNotFound = error("Review not found");
+
 export {
   error,
   serverError,
@@ -62,4 +67,6 @@ export {
   itemExists,
   itemNotFound,
   providerNotFound,
+  reviewExists,
+  reviewNotFound,
 };

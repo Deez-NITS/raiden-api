@@ -54,8 +54,7 @@ model User {
   verified    Boolean  @default(false)
   img         String
 
-  reviews Review[] // One-Many Relation
-  orders  Order[] // One-Many Relation
+  orders Order[] // One-Many Relation
 
 }
 
@@ -79,9 +78,8 @@ model Provider {
   tags        String[]
   createdAt   DateTime @default(now())
 
-  items   Item[] // One-Many Relation
-  orders  Order[] // One-Many Relation
-  reviews Review[] // One-Many Relation
+  items  Item[] // One-Many Relation
+  orders Order[] // One-Many Relation
 
   @@unique([name, airportCode, gstin])
 }
@@ -121,9 +119,7 @@ model Order {
   status    OrderStatus @default(RECIEVED)
   createdAt DateTime    @default(now())
 
-  items   Int[] // Id of Items
-  reviews Review[] // One-Many Relation
-
+  items Int[] // Id of Items
 
   @@unique([providerId, userId, flightId])
 }
@@ -142,20 +138,12 @@ model Review {
 
   id Int @id @default(autoincrement())
 
-  user   User @relation(fields: [userId], references: [id]) // One-Many Relation
-  userId Int
-
-  score Int
-
-  provider   Provider @relation(fields: [providerId], references: [id])
+  userId     Int
+  score      Int
   providerId Int
-
-  comment String
-
-  order   Order @relation(fields: [orderId], references: [id])
-  orderId Int
-
-  createdAt DateTime @default(now())
+  comment    String
+  orderId    Int
+  createdAt  DateTime @default(now())
 
 
   @@unique([userId, providerId])

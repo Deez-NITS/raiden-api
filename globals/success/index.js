@@ -31,6 +31,10 @@ const orderStatusUpdated = success("Order status updated.");
 const itemCreated = success("Item created successfully.");
 const itemUpdated = success("Item updated successfully.");
 
+//---------------------- REVIEW -----------------------------
+
+const reviewCreated = success("Review created successfully.");
+
 export {
   success,
   userCreated,
@@ -46,4 +50,5 @@ export {
   orderStatusUpdated,
   itemCreated,
   itemUpdated,
+  reviewCreated,
 };

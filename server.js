@@ -23,6 +23,7 @@ import {
   itemRouter,
   orderRouter,
   providerRouter,
+  reviewRouter,
   userRouter,
 } from "./routes/index.js";
 
@@ -62,6 +63,7 @@ app.use(`${ROOT}/user`, userRouter);
 app.use(`${ROOT}/provider`, providerRouter);
 app.use(`${ROOT}/order`, orderRouter);
 app.use(`${ROOT}/item`, itemRouter);
+app.use(`${ROOT}/review`, reviewRouter);
 
 //------------------------- APP -------------------------
 
