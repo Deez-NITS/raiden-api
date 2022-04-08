@@ -35,6 +35,10 @@ const itemUpdated = success("Item updated successfully.");
 
 const reviewCreated = success("Review created successfully.");
 
+//---------------------- REVIEW -----------------------------
+
+const imageUploaded = success("Image uploaded successfully.");
+
 export {
   success,
   userCreated,
@@ -51,4 +55,5 @@ export {
   itemCreated,
   itemUpdated,
   reviewCreated,
+  imageUploaded,
 };

@@ -48,7 +48,7 @@ const reviewNotFound = error("Review not found");
 
 //----------------- UPLOAD -------------------------------
 
-const filesNotFound = error("Files not uploaded.");
+const errorUploading = error("Error uploading files");
 
 export {
   error,
@@ -73,5 +73,5 @@ export {
   providerNotFound,
   reviewExists,
   reviewNotFound,
-  filesNotFound,
+  errorUploading,
 };

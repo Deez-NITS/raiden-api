@@ -21,7 +21,7 @@ function defaultProfilePic(name) {
  * @description Upload an image
  *
  * @param {import('express').Request} req
- * @returns {string | null} URL of uploaded image
+ * @returns {Promise<string | null>} URL of uploaded image
  */
 async function uploadImage(req) {
   if (!req.files) {
@@ -31,7 +31,8 @@ async function uploadImage(req) {
   const file = req.files.image;
 
   try {
-    return await cloudinary.uploader.upload(file.tempFilePath);
+    const { url } = await cloudinary.uploader.upload(file.tempFilePath);
+    return url;
   } catch (err) {
     console.log(err);
     return null;
