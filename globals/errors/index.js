@@ -46,6 +46,10 @@ const providerNotFound = error("Provider not found");
 const reviewExists = error("Review already exists");
 const reviewNotFound = error("Review not found");
 
+//----------------- UPLOAD -------------------------------
+
+const errorUploading = error("Error uploading files");
+
 export {
   error,
   serverError,
@@ -69,4 +73,5 @@ export {
   providerNotFound,
   reviewExists,
   reviewNotFound,
+  errorUploading,
 };

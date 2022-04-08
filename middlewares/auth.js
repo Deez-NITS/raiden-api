@@ -44,7 +44,7 @@ async function loginErrors(err, _, res, next) {
  * @description Checks if user has permission
  * required for particular route.
  *
- * @param level Role needed to access route
+ * @param {"user" | "provider"} level Role needed to access route
  */
 function authLevel(level = "user") {
   /**
