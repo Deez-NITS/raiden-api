@@ -21,7 +21,7 @@ async function getFlight(req, res) {
       where: {
         flightNumber,
         startTime: new Date(startTime),
-        endTime: new Date(endTime),
+        endTime: endTime ? new Date(endTime) : undefined,
       },
     });
 
