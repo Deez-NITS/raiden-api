@@ -20,6 +20,9 @@ import {
   airportRouter,
   authRouter,
   flightRouter,
+  itemRouter,
+  orderRouter,
+  providerRouter,
   userRouter,
 } from "./routes/index.js";
 
@@ -56,6 +59,9 @@ app.use(`${ROOT}/auth`, authRouter);
 app.use(`${ROOT}/airport`, airportRouter);
 app.use(`${ROOT}/flight`, flightRouter);
 app.use(`${ROOT}/user`, userRouter);
+app.use(`${ROOT}/provider`, providerRouter);
+app.use(`${ROOT}/order`, orderRouter);
+app.use(`${ROOT}/item`, itemRouter);
 
 //------------------------- APP -------------------------
 

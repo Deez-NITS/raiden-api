@@ -1,5 +1,5 @@
-import { userLogin } from "./login.js";
-import { userSignUp } from "./signup.js";
-import { userSignOut } from "./signout.js";
+import { login } from "./login.js";
+import { signup } from "./signup.js";
+import { signout } from "./signout.js";
 
-export { userLogin, userSignUp, userSignOut };
+export { login, signup, signout };

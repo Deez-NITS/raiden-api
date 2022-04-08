@@ -8,7 +8,7 @@ import { success } from "../../globals/success/index.js";
  * @param {import('express').Response} res
  */
 
-async function userLogin(_, res) {
+async function login(_, res) {
   try {
     res.json(success("Log In Successful"));
   } catch (err) {
@@ -17,4 +17,4 @@ async function userLogin(_, res) {
   }
 }
 
-export { userLogin };
+export { login };

@@ -61,8 +61,14 @@ model User {
 
 model Provider {
 
-  id   Int    @id @default(autoincrement())
-  name String
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String   @unique
+  password    String
+  phoneNumber String
+  otpValue    String
+  otpExpiry   DateTime
+  verified    Boolean  @default(false)
 
   airport     Airport @relation(fields: [airportCode], references: [code])
   airportCode String
@@ -72,7 +78,6 @@ model Provider {
   img         String
   tags        String[]
   createdAt   DateTime @default(now())
-  verified    Boolean  @default(false)
 
   items   Item[] // One-Many Relation
   orders  Order[] // One-Many Relation

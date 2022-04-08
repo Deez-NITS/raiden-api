@@ -16,13 +16,24 @@ import { otpIssued } from "../../globals/success/index.js";
  */
 async function newOtp(req, res) {
   try {
+    const { type } = req.body;
     const { email } = req.body;
 
-    let user = await prisma.user.findFirst({
-      where: {
-        email,
-      },
-    });
+    let user;
+
+    if (type === "provider") {
+      user = await prisma.provider.findFirst({
+        where: {
+          email,
+        },
+      });
+    } else {
+      user = await prisma.user.findFirst({
+        where: {
+          email,
+        },
+      });
+    }
 
     // User not found
     if (!user) {
@@ -37,15 +48,27 @@ async function newOtp(req, res) {
     // All perfect
     const otp = await generateOtp(req);
 
-    await prisma.user.update({
-      where: {
-        email,
-      },
-      data: {
-        otpValue: otp.value,
-        otpExpiry: otp.expiry,
-      },
-    });
+    if (type === "provider") {
+      await prisma.provider.update({
+        where: {
+          email,
+        },
+        data: {
+          otpValue: otp.value,
+          otpExpiry: otp.expiry,
+        },
+      });
+    } else {
+      await prisma.user.update({
+        where: {
+          email,
+        },
+        data: {
+          otpValue: otp.value,
+          otpExpiry: otp.expiry,
+        },
+      });
+    }
 
     res.json(otpIssued);
   } catch (err) {

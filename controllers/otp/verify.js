@@ -20,13 +20,24 @@ import { otpVerified } from "../../globals/success/index.js";
  */
 async function verifyOtp(req, res) {
   try {
+    const { type } = req.params;
     const { email, otp } = req.body;
 
-    const user = await prisma.user.findFirst({
-      where: {
-        email,
-      },
-    });
+    let user;
+
+    if (type === "provider") {
+      user = await prisma.provider.findFirst({
+        where: {
+          email,
+        },
+      });
+    } else {
+      user = await prisma.user.findFirst({
+        where: {
+          email,
+        },
+      });
+    }
 
     // User not found
     if (!user) {
@@ -49,16 +60,30 @@ async function verifyOtp(req, res) {
     }
 
     // All perfect
-    await prisma.user.update({
-      where: {
-        email,
-      },
-      data: {
-        otpValue: "",
-        otpExpiry: new Date(0),
-        verified: true,
-      },
-    });
+
+    if (type === "provider") {
+      await prisma.provider.update({
+        where: {
+          email,
+        },
+        data: {
+          otpValue: "",
+          otpExpiry: new Date(0),
+          verified: true,
+        },
+      });
+    } else {
+      await prisma.user.update({
+        where: {
+          email,
+        },
+        data: {
+          otpValue: "",
+          otpExpiry: new Date(0),
+          verified: true,
+        },
+      });
+    }
     res.json(otpVerified);
   } catch (err) {
     console.log(err);

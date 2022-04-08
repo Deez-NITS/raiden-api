@@ -17,31 +17,46 @@ function initializePassport() {
         usernameField: "email",
         passwordField: "password",
         session: true,
+        passReqToCallback: true,
       },
-      async (email, password, done) => {
-        const user = await prisma.user.findFirst({
-          where: {
-            email,
-          },
-        });
+      async (req, email, password, done) => {
+        const { type } = req.params;
+
+        let identity;
+        if (type === "provider") {
+          identity = await prisma.provider.findFirst({
+            where: {
+              email,
+            },
+          });
+        } else {
+          identity = await prisma.user.findFirst({
+            where: {
+              email,
+            },
+          });
+        }
 
         // User Not Found
-        if (!user) {
+        if (!identity) {
           return done("User not found", false);
         }
 
         // Wrong Password
-        if (!(await bcrypt.compare(password, user.password))) {
+        if (!(await bcrypt.compare(password, identity.password))) {
           return done("Wrong Password", false);
         }
 
         // User Not Verified
-        if (!user.verified) {
+        if (!identity.verified) {
           return done("User not verified", false);
         }
 
         // Successful Login
-        return done(null, user);
+        return done(null, {
+          role: type === "provider" ? "provider" : "user",
+          ...identity,
+        });
       }
     )
   );
@@ -50,19 +65,30 @@ function initializePassport() {
   passport.serializeUser((user, done) => {
     done(null, {
       email: user.email,
+      role: user.role,
     });
   });
 
   // Reads the cookie and sets `req.user`
   passport.deserializeUser(async (data, done) => {
     try {
-      let user = await prisma.user.findFirst({
-        where: {
-          email: data.email,
-        },
-      });
+      let user;
 
-      done(null, user);
+      if (data.role === "provider") {
+        user = await prisma.provider.findFirst({
+          where: {
+            email: data.email,
+          },
+        });
+      } else {
+        user = await prisma.user.findFirst({
+          where: {
+            email: data.email,
+          },
+        });
+      }
+
+      done(null, { role: data.role, ...user });
     } catch (err) {
       console.log(err);
       done("User Not Found", false);

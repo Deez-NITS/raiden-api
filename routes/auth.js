@@ -3,11 +3,7 @@ import passport from "passport";
 
 import otpRouter from "./otp.js";
 
-import {
-  userLogin,
-  userSignUp,
-  userSignOut,
-} from "../controllers/auth/index.js";
+import { login, signup, signout } from "../controllers/auth/index.js";
 import { authenticated, loginErrors } from "../middlewares/index.js";
 
 const router = express.Router({ mergeParams: true });
@@ -15,12 +11,13 @@ const router = express.Router({ mergeParams: true });
 router.use("/otp", otpRouter);
 
 router.post(
-  "/login",
+  "/login/:type",
   passport.authenticate("local", { failWithError: true }),
   loginErrors,
-  userLogin
+  login
 );
-router.post("/signup", userSignUp);
-router.post("/logout", authenticated, userSignOut);
+router.post("/signup/:type", signup);
+// router.post("/provider/signup", providerSignUp);
+router.post("/logout", authenticated, signout);
 
 export default router;

@@ -7,7 +7,7 @@ import { userLoggedOut } from "../../globals/success/index.js";
  * @param {import("express").Request} req
  * @param {import("express").Response} res
  */
-async function userSignOut(req, res) {
+async function signout(req, res) {
   try {
     req.logout();
     res.json(userLoggedOut);
@@ -17,4 +17,4 @@ async function userSignOut(req, res) {
   }
 }
 
-export { userSignOut };
+export { signout };

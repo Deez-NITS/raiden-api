@@ -4,7 +4,7 @@ import { newOtp, verifyOtp } from "../controllers/otp/index.js";
 
 const router = express.Router();
 
-router.post("/verify", verifyOtp);
-router.post("/new", newOtp);
+router.post("/verify/:type", verifyOtp);
+router.post("/new/:type", newOtp);
 
 export default router;
