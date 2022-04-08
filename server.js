@@ -14,7 +14,7 @@ import cookieSession from "cookie-session";
 import passport from "passport";
 
 import { COOKIE_MAX_AGE, ROOT } from "./globals/constants.js";
-import { initializePassport } from "./utils/index.js";
+import { initializePassport, initializeCloudinary } from "./utils/index.js";
 
 import {
   airportRouter,
@@ -30,6 +30,7 @@ import {
 //------------------------- MIDDLEWARES -------------------------
 
 initializePassport();
+initializeCloudinary();
 
 const app = express();
 
