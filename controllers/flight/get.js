@@ -71,4 +71,15 @@ async function getFlightById(req, res) {
   }
 }
 
-export { getFlight, getFlightById };
+async function getAllFlights(req, res) {
+  try {
+    const flights = await prisma.flight.findMany();
+
+    res.json(success(flights));
+  } catch (err) {
+    console.log(err);
+    res.json(serverError);
+  }
+}
+
+export { getFlight, getFlightById, getAllFlights };
