@@ -13,13 +13,12 @@ async function newOrder(req, res) {
     const { providerId, flightId, remarks, items } = req.body;
 
     if (
-      (await prisma.order.findFirst({
+      (await prisma.order.count({
         where: {
           providerId,
           userId: req.user.id,
           flightId,
           remarks,
-          items,
         },
       })) !== 0
     ) {

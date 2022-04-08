@@ -2,6 +2,7 @@ import { error } from "./error.js";
 
 const serverError = error("Internal Server Error.");
 const invalidId = error("Invalid ID.");
+const unauthorizedAccess = error("Unauthorized access.");
 
 //----------------- AUTH -------------------------------
 
@@ -44,6 +45,7 @@ export {
   error,
   serverError,
   invalidId,
+  unauthorizedAccess,
   userNotFound,
   userAlreadyExists,
   userUnauthenticated,

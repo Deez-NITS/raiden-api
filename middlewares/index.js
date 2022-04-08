@@ -1,3 +1,3 @@
-import { authenticated, loginErrors } from "./auth.js";
+import { authenticated, loginErrors, authLevel, blockRoute } from "./auth.js";
 
-export { authenticated, loginErrors };
+export { authenticated, loginErrors, authLevel, blockRoute };

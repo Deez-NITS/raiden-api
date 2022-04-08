@@ -5,9 +5,11 @@ import {
   getFlightById,
 } from "../controllers/flight/index.js";
 
+import { blockRoute } from "../middlewares/index.js";
+
 const router = express.Router({ mergeParams: true });
 
-router.post("/new", newFlight);
+router.post("/new", blockRoute, newFlight);
 router.get("/", getFlight);
 router.get("/:id", getFlightById);
 

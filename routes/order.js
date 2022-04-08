@@ -1,5 +1,5 @@
 import express from "express";
-import { authenticated } from "../middlewares/index.js";
+import { authLevel } from "../middlewares/index.js";
 import {
   newOrder,
   getOrder,
@@ -8,8 +8,8 @@ import {
 
 const router = express.Router();
 
-router.post("/new", authenticated, newOrder);
+router.post("/new", authLevel(), newOrder);
 router.get("/:id", getOrder);
-router.patch("/:id", authenticated, updateOrderStatus); // TODO: Update auth level to provider
+router.patch("/:id", authLevel("provider"), updateOrderStatus);
 
 export default router;

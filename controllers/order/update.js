@@ -2,6 +2,7 @@ import {
   serverError,
   invalidId,
   orderNotFound,
+  unauthorizedAccess,
 } from "../../globals/errors/index.js";
 import { orderStatusUpdated } from "../../globals/success/index.js";
 import { prisma, validId } from "../../utils/index.js";
@@ -25,7 +26,7 @@ async function updateOrderStatus(req, res) {
 
     id = parseInt(id);
 
-    const order = await prisma.user.findFirst({
+    const order = await prisma.order.findFirst({
       where: {
         id,
       },
@@ -33,6 +34,10 @@ async function updateOrderStatus(req, res) {
 
     if (!order) {
       return res.json(orderNotFound);
+    }
+
+    if (order.providerId !== req.user.id) {
+      return res.json(unauthorizedAccess);
     }
 
     await prisma.order.update({

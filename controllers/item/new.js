@@ -1,6 +1,7 @@
 import { itemExists, serverError } from "../../globals/errors/index.js";
 import { itemCreated } from "../../globals/success/index.js";
 import { prisma } from "../../utils/index.js";
+import { defaultProfilePic } from "../../utils/index.js";
 
 /**
  * @description Add a new item
@@ -10,25 +11,36 @@ import { prisma } from "../../utils/index.js";
  */
 async function newItem(req, res) {
   try {
-    const { name, providerId, description, price, tags } = req.body;
+    const { name, description, price, tags } = req.body;
 
     if (
-      (await prisma.item.findFirst({
+      (await prisma.item.count({
         where: {
           name,
-          providerId,
+          providerId: req.user.id,
         },
       })) !== 0
     ) {
       return res.json(itemExists);
     }
 
-    await prisma.item.create({
+    await prisma.provider.update({
+      where: {
+        id: req.user.id,
+      },
       data: {
-        name,
-        description,
-        price,
-        tags,
+        items: {
+          create: [
+            {
+              name,
+              description,
+              price,
+              tags,
+              providerId: req.params.id,
+              img: defaultProfilePic(name),
+            },
+          ],
+        },
       },
     });
 

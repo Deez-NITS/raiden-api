@@ -1,6 +1,6 @@
 import express from "express";
 
-import { authenticated } from "../middlewares/index.js";
+import { authLevel } from "../middlewares/index.js";
 import {
   getUser,
   getUserById,
@@ -10,10 +10,10 @@ import {
 
 const router = express.Router({ mergeParams: true });
 
-router.get("/", authenticated, getUser);
-router.patch("/password", authenticated, changePassword);
-// router.patch("/img", authenticated, updateProfileImage);
-router.patch("/details", authenticated, updateProfileDetails);
+router.get("/", authLevel(), getUser);
+router.patch("/password", authLevel(), changePassword);
+// router.patch("/img", updateProfileImage);
+router.patch("/details", authLevel(), updateProfileDetails);
 router.get("/:id", getUserById);
 
 export default router;

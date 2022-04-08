@@ -7,10 +7,12 @@ import {
   updateItem,
 } from "../controllers/item/index.js";
 
+import { authLevel } from "../middlewares/index.js";
+
 const router = express.Router({ mergeParams: true });
 
-router.post("/new", newItem); // TODO: Update auth level to provider
+router.post("/new", authLevel("provider"), newItem);
 router.get("/provider/:id", getItemsByProvider);
-router.post("/:id", getItem);
-router.patch("/:id", updateItem);
+router.get("/:id", getItem);
+router.patch("/:id", authLevel("provider"), updateItem);
 export default router;

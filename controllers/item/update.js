@@ -2,6 +2,7 @@ import {
   serverError,
   itemNotFound,
   invalidId,
+  unauthorizedAccess,
 } from "../../globals/errors/index.js";
 import { itemUpdated } from "../../globals/success/index.js";
 import { prisma, validId } from "../../utils/index.js";
@@ -25,8 +26,18 @@ async function updateItem(req, res) {
 
     const { description, price, img } = req.body;
 
-    if ((await prisma.item.count({ where: { id } })) === 0) {
+    const item = await prisma.item.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    if (!item) {
       return res.json(itemNotFound);
+    }
+
+    if (item.providerId !== req.user.id) {
+      return res.json(unauthorizedAccess);
     }
 
     await prisma.item.update({

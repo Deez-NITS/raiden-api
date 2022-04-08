@@ -6,10 +6,12 @@ import {
   updateAirport,
 } from "../controllers/airport/index.js";
 
+import { blockRoute } from "../middlewares/index.js";
+
 const router = express.Router({ mergeParams: true });
 
-router.post("/new", newAirport);
+router.post("/new", blockRoute, newAirport);
 router.get("/:id", getAirport);
-router.patch("/:id", updateAirport);
+router.patch("/:id", blockRoute, updateAirport);
 
 export default router;
