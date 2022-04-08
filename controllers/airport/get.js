@@ -42,4 +42,46 @@ async function getAirport(req, res) {
   }
 }
 
-export { getAirport };
+/**
+ *
+ * @description Get all providers
+ * at a particular airport
+ *
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
+async function getProvidersInAirport(req, res) {
+  try {
+    let { id } = req.params;
+
+    if (!validId(id)) {
+      console.log(id, parseInt(id));
+      return res.json(invalidId);
+    }
+
+    id = parseInt(id);
+
+    const airport = await prisma.airport.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    if (!airport) {
+      return res.json(airportNotFound);
+    }
+
+    const providers = await prisma.provider.findMany({
+      where: {
+        airportCode: airport.code,
+      },
+    });
+
+    res.json(success(providers));
+  } catch (err) {
+    console.log(err);
+    res.json(serverError);
+  }
+}
+
+export { getAirport, getProvidersInAirport };
