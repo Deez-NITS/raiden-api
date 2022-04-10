@@ -25,7 +25,9 @@ async function getFlight(req, res) {
 
     const day = 1000 * 60 * 60 * 24;
     const today = Math.floor(startTime / day) * day;
-    const range = [today, today + 1];
+    const range = [today, today + day];
+
+    console.log(range);
 
     let flight;
     for (let i = 0; i < flights.length; i++) {

@@ -12,7 +12,7 @@ const router = express.Router({ mergeParams: true });
 
 router.get("/all", getAllFlights);
 router.post("/new", newFlight);
-router.get("/", getFlight);
+router.post("/", getFlight);
 router.get("/:id", getFlightById);
 
 export default router;
