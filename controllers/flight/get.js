@@ -15,15 +15,27 @@ import { prisma, validId } from "../../utils/index.js";
  */
 async function getFlight(req, res) {
   try {
-    const { flightNumber, startTime, endTime } = req.body;
+    const { flightNumber, startTime } = req.body;
 
-    const flight = await prisma.flight.findFirst({
+    const flights = await prisma.flight.findMany({
       where: {
         flightNumber,
-        startTime: new Date(startTime),
-        endTime: endTime ? new Date(endTime) : undefined,
       },
     });
+
+    const day = 1000 * 60 * 60 * 24;
+    const today = Math.floor(startTime / day) * day;
+    const range = [today, today + 1];
+
+    let flight;
+    for (let i = 0; i < flights.length; i++) {
+      if (
+        flights[i].startTime <= range[1] &&
+        flights[i].startTime >= range[0]
+      ) {
+        flight = flights[i];
+      }
+    }
 
     if (!flight) {
       return res.json(flightNotFound);

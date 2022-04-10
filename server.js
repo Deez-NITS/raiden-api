@@ -12,6 +12,7 @@ import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import cookieSession from "cookie-session";
 import passport from "passport";
+import ip from "ip";
 
 import { COOKIE_MAX_AGE, ROOT } from "./globals/constants.js";
 import { initializePassport, initializeCloudinary } from "./utils/index.js";
@@ -68,8 +69,10 @@ app.use(`${ROOT}/review`, reviewRouter);
 
 //------------------------- APP -------------------------
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT, ip.address(), () => {
   console.log(
-    `Server started at port ${process.env.PORT} in ${process.env.NODE_ENV} mode`
+    `Server started at port ${process.env.PORT} in ${
+      process.env.NODE_ENV
+    } mode at ${ip.address()}`
   );
 });
